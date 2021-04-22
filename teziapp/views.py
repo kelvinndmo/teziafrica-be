@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
@@ -62,7 +61,6 @@ def logout(request):
         'form':form
     }
     return render(request,'./teziapp/logout.html', context)
-=======
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -93,4 +91,3 @@ class IsReadOnlyOrIsAuthenticated(permissions.BasePermission):
                 return False
         else:
             return True
->>>>>>> 9d9c1824772b8166a10bfe6542bb4b4d795420e2

@@ -1,7 +1,14 @@
 from __future__ import unicode_literals
 from django.db import models
-<<<<<<< HEAD
 from django.contrib.auth.models import User
+from tinymce.models import HTMLField
+from django.core.mail import send_mail
+from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.utils.translation import ugettext_lazy as _
+
+# from .managers import UserManager
+from django.contrib.auth.base_user import BaseUserManager
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -10,18 +17,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
-=======
-from tinymce.models import HTMLField
-
-# Create your models here.
-
-from django.core.mail import send_mail
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.utils.translation import ugettext_lazy as _
-
-# from .managers import UserManager
-from django.contrib.auth.base_user import BaseUserManager
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -90,4 +85,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
->>>>>>> 9d9c1824772b8166a10bfe6542bb4b4d795420e2
+
+
+class Ticketing(models.Model):
+    ticket_name = models.CharField(max_length=50, null=True)
+    description = models.CharField(max_length=100,null=True) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
+    email = models.EmailField()
+    def create_ticket(self):
+        self.save()
+    def delete_ticket(self):
+        self.delete()
