@@ -24,7 +24,7 @@ class LoginAPI(KnoxLoginView):
 
 def home(request):
     Profile = Profile.objects.all()
-    business = Client.objects.all()
+    Client = Client.objects.all()
     
     return render(request, "home.html", {"profiles":profile, "client":client,"})
 
