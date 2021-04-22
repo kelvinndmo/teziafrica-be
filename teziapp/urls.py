@@ -2,7 +2,9 @@ from rest_framework.routers import DefaultRouter
 from django.urls import path,re_path,include
 from . import views
 from .views import *
+from .views import LoginAPI
 from django.urls import path
+from knox.views import LoginView as KnoxLoginView
 
 userSignup=UserViewSet.as_view({
     'get':'list',
@@ -20,6 +22,8 @@ userDetail=UserViewSet.as_view({
 
 router = DefaultRouter()
 router.register(r'User', UserViewSet)
+router.register(r'Profile', ProfileViewSet)
+router.register(r'Client', ClientViewSet)
 
 urlpatterns =[
     path('', views.home, name='index'),

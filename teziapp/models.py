@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from tinymce.models import HTMLField
-
+import cloudinary
 # Create your models here.
 
 from django.core.mail import send_mail
@@ -79,3 +79,34 @@ class User(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+class Client(models.Model):
+    client_name = models.CharField(max_length=250)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    client_profile = CloudinaryField('Profile pic', null=True, blank=True)
+    client_email = models.CharField(max_length=30)
+    
+    def __str__(self):
+        return f'{self.client_name} client'
+    
+    def save_client(self):
+        self.save()
+        
+    def delete_client(self):
+        self.delete()
+
+
+class Profile (models.Model):
+    name = models.CharField(max_length=30)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    email = models.CharField(max_length=50)
+    status = models.BooleanField()
+    image = CloudinaryField('Profile pic', default = 'profile.jpg')
+    
+    def __str__(self):
+        return f'{self.user.username} Profile'
+    def save_profile(self):
+        self.save
+    def delete_profile(self):
+        self.delete()
+
