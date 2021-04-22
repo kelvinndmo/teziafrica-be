@@ -1,0 +1,86 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    {% block styles %}
+        {% bootstrap_css %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% endblock %}
+
+    {% if title %}
+    <title>TeziAfrica - {{ title }}</title>
+    {% else %}
+    <title>TeziAfrica</title>
+    {% endif %}
+
+</head>
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand">Welcome To TeziAfrica</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        {% if user.is_authenticated %}
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Menu
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                
+                      <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                  </div>
+              </div>
+              {% else %}
+              <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'login' %}" class="nav-link">Sign In</a>
+                </li>
+              </ul>
+                {% endif %}
+            </li>
+          </ul>
+        </div>
+      </nav>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    {% block content %}
+
+    {% endblock %}
+
+    {% block scripts %}
+        {% bootstrap_javascript jquery='full' %}
+        <script src="{% static 'scripts/jquery.easypiechart.js' %}"></script>
+        <script src="{% static 'scripts/rateproject.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

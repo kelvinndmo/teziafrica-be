@@ -1,0 +1,12 @@
+{% extends 'teziapp/base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h2>You Have Been Logged Out</h2>
+        <div class="border-top pt-3">
+            <a href="{% url 'login' %}">Log in </a>
+        </div>
+    </div>
+</div>
+<div class="col-md-4"></div>
+{% endblock %}

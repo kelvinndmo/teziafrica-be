@@ -1,0 +1,29 @@
+{% extends 'teziapp/base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="content-section">
+                <div class="media">
+                    <img src="{{ user.profile.profile_pic.url }}" alt="profile image" class="rounded-circle profile-img">
+                    <div class="media-body">
+                        <h2 class="account-heading ml-4">Username: {{ user.username }}</h2>
+                        <p class="text-secondary ml-4"> Email: {{ user.email }}</p>
+                        <!-- <p class="text-secondary ml-4">Bio: {{ user.profile.bio }}</p> -->
+                    </div>
+                </div>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="boarder-bottom mb-4">My Profile</legend>
+                        {{ u_form|crispy }} {{ p_form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+</div>
+{% endblock %}

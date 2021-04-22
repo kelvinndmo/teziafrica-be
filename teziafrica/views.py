@@ -18,7 +18,7 @@ def register(request):
     context = {
         'form':form
     }
-    return render(request,"register.html", context)
+    return render(request,"./teziapp/register.html", context)
 
 @login_required
 def profile(request):
@@ -40,7 +40,7 @@ def profile(request):
         'u_form':u_form,
         'p_form':p_form 
     }
-    return render(request,'profile.html', context)
+    return render(request,'./teziapp/profile.html', context)
 
 
 
@@ -51,7 +51,7 @@ def login(request):
         'title':title,
         'form':form
     }
-    return render(request,'./teziapp/login.html', context)
+    return render(request,'login.html', context)
 
 
 def logout(request):
@@ -60,4 +60,4 @@ def logout(request):
         'title':title,
         'form':form
     }
-    return render(request,'./teziapp/logout.html', context)
+    return render(request,'logout.html', context)
