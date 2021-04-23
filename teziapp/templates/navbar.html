@@ -1,0 +1,34 @@
+<header class="site-header">
+    <nav class="navbar navbar-inverse navbar-dark">
+      <div class="container-fluid">
+      
+        <!-- Brand/logo -->
+        <div class="navbar-header ">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="{% url 'index' %}" aria-expanded="false">
+            <span class="sr-only">TeziAfrica</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}">TEZI AFRICA</a>
+        </div>
+        
+        <!-- Collapsible Navbar -->
+        <div class="collapse navbar-collapse" id="example-1">
+          <ul class="nav navbar-nav">
+            <li> <a href="{% url 'index' %}">Home</a></li>
+            
+          {% if user.is_authenticated %}
+          
+         <li> <a  href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li> <a  href="accounts/register">Register</a></li>
+         <li><a  href="{% url 'login' %}">Login</a></li>
+          {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    </header>
+  
+  
