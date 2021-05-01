@@ -21,8 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY='m%n6)u=m7^r-31j)1k)di6c6*o9z&^b6^erwc*ajett0emhnvo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG')
 
@@ -38,10 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django.contrib.sites',
 
     'authentication',
     'clients',
-    'flowbuilder'
+    'flowbuilder',
+     
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
 ]
 
 MIDDLEWARE = [
@@ -60,7 +67,7 @@ ROOT_URLCONF = 'teziafricabe.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -102,7 +109,7 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
         'TEST': {
-            'NAME': 'test_landville'
+            'NAME': 'test_affrica'
         }
     },
 }
@@ -143,4 +150,45 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+# static
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# site identity seo
+SITE_ID = 1
+SITE_NAME = 'teziafrica'
+
+
+# email configurations
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+
+# add this
+#allauth
+LOGIN_REDIRECT_URL = 'profile'
+LOGOUT_REDIRECT_URL = '/'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_EMAIL_REQUIRED = True
+
+# sett this to false coz no username
+ACCOUNT_USERNAME_REQUIRED = True
+AUTHENTICATION_BACKENDS = (
+	'django.contrib.auth.backends.ModelBackend',
+	'allauth.account.auth_backends.AuthenticationBackend', 
+)
