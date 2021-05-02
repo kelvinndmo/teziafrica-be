@@ -2,7 +2,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db.models.signals import post_save
 from django.contrib.auth import get_user_model
 from django.db import models
-# from django.core.serializer.json import DjangoJSONEncoder
+
 
 class UserManager(BaseUserManager):
     """" 
@@ -37,8 +37,7 @@ class UserManager(BaseUserManager):
             full_name=full_name, 
             email=self.normalize_email(email))
         user.is_admin = True
-        user.is_active = True
-        # user.is_verified = True
+        user.is_active = True       
         user.set_password(password)
         user.save()
       
@@ -85,11 +84,11 @@ class User(AbstractBaseUser):
         return self.verified
 
 class Client(models.Model):
+    # client_name = models.CharField(max_length=100, unique=True)
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
+    phone_number = models.CharField(max_length=11, blank=True, null=True)
     email = models.EmailField(unique=True)
-    # address = JSONField(
-    #     verbose_name='physical address', encoder=DjangoJSONEncoder
-    # )
+    adress = models.CharField("Address line",max_length=1024, blank=True, null=True)    
     update = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
