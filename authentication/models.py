@@ -1,6 +1,8 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db.models.signals import post_save
 from django.contrib.auth import get_user_model
+from datetime import datetime, timedelta
+from django.conf import settings
 from django.db import models
 
 
@@ -9,7 +11,7 @@ class UserManager(BaseUserManager):
     We need to override the `create_user` method so that users can
     only be created when all non-nullable fields are populated.
     """
-    def create_user(self, email, full_name, password=None):
+    def create_user(self, first_name=None, last_name=None, email=None, password=None, role='TA'):
   
         if not email:
             raise ValueError('Don\'t forget your Email!')
@@ -43,28 +45,32 @@ class UserManager(BaseUserManager):
       
 
 class User(AbstractBaseUser):
+    """This class define the user model"""
+    USER_ROLES = (
+        ('TA', 'TEZI ADMIN'),
+        ('CA', 'CUSTOMER USER'),
+        ('CA', 'CLIENT ADMIN'),
+        ('CE', 'CLIENT EMPLOYEE'),
+    )
+    username = models.CharField(null=True, blank=True, max_length=100, unique=True)
     email = models.EmailField(max_length=162, unique=True)
-    full_name = models.CharField(max_length=252, blank=True, null=True)
+    role = models.CharField(verbose_name='user role', max_length=2, choices=USER_ROLES,
+        default='CU'
+    )
     phone_number = models.CharField(max_length=11, blank=True, null=True)
     image = models.ImageField(upload_to='user_images/%Y/%m/%d', default='default.jpg')
     display_name = models.CharField(('display name'), max_length=70, blank=True, null=True, unique=False)
     verified = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_owner = models.BooleanField(default=False)
-    is_manager = models.BooleanField(default=False)
-    is_representative = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    joined = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ['full_name',] # Email & Password are required by default.
+    REQUIRED_FIELDS = ['first_name', 'last_name'] # Email & Password are required by default.
 
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return f'{self.email}'
 
     def has_perm(self, perm, obj=None):
         return True
@@ -72,8 +78,12 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    def get_full_name(self):
-        return self.full_name
+    def __str__(self):
+        return f'(self.first_name) (self.last_name)'
+
+    @property
+    def token(self):
+        return self._generate_jwt_token()
 
     @property
     def is_staff(self):
@@ -83,30 +93,31 @@ class User(AbstractBaseUser):
     def is_verified(self):
         return self.verified
 
+
+    def _generate_jwt_token(self):  
+        token_expiry = datetime.now() + timedelta(hours=24)  
+
+        token = jwt.encode({
+            'id': self.pk,
+            'email': self.get_email,
+            'exp': int(token_expiry.strftime('%s'))
+        }, settings.SECRET_KEY, algorithm='HS256')
+
+        return token.decode('utf-8')
+
+
 class Client(models.Model):
-    # client_name = models.CharField(max_length=100, unique=True)
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
-    phone_number = models.CharField(max_length=11, blank=True, null=True)
+    """This class defines the client Company Model"""
+    
+    client_name = models.CharField(max_length=100, unique=True)
+    client_admin = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='employer'
+    )
+    phone = models.CharField(max_length=17, unique=True)
     email = models.EmailField(unique=True)
-    adress = models.CharField("Address line",max_length=1024, blank=True, null=True)    
-    update = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now_add=True)
-
+    address = models.CharField('physical address', max_length=1024,
+    )
+    objects = models.Manager()
+    
     def __str__(self):
-        return '{}'.format(self.email)
-
-class Guest(models.Model):
-    email = models.EmailField()
-    is_active = models.BooleanField(default=True)
-    update = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return '{}'.format(self.email)
-
-def client_create(sender, instance, created, *args, **kwargs):
-    if created and instance.email:
-        Client.objects.get_or_create(user=instance, email=instance.email)
-
-post_save.connect(client_create, sender=get_user_model())
-
+        return self.client_name
