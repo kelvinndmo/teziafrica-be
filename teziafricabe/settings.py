@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-
+SECRET_KEY="m%n6)u=m7^r-31j)1k)di6c6*o9z&^b6^erwc*ajett0emhnvo"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'clients',
     'flowbuilder',
     'company',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -98,11 +99,11 @@ WSGI_APPLICATION = 'teziafricabe.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': os.environ.get('DB_NAME', 'postgres'),
-        'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+         'NAME': ('tezi'),
+        'USER': ('moringa'),
+        'PASSWORD': ('ragnarok'),
+        'HOST': ('localhost'),
+        'PORT': ('5432'),
         'TEST': {
             'NAME': 'test_landville'
         }
@@ -146,3 +147,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
