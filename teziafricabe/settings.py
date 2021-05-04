@@ -22,11 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = "m%n6)u=m7^r-31j)1k)di6c6*o9z&^b6^erwc*ajett0emhnvo"
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS =['127.0.0.1']
 
 
 # Application definition
@@ -41,7 +43,8 @@ INSTALLED_APPS = [
 
     'authentication',
     'clients',
-    'flowbuilder'
+    'flowbuilder',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -76,6 +79,8 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
     'DEFAULT_VERSION': 'v1',
@@ -84,6 +89,7 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 50
 }
+
 
 WSGI_APPLICATION = 'teziafricabe.wsgi.application'
 
@@ -96,11 +102,11 @@ WSGI_APPLICATION = 'teziafricabe.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', 'postgres'),
-        'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME':  'teziafrica',
+        'USER':  'postgres',
+        'PASSWORD': '0000',
+        'HOST':  'localhost',
+        'PORT': '',
         'TEST': {
             'NAME': 'test_landville'
         }
@@ -131,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
@@ -144,3 +150,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# DJANGO_SETTINGS_MODULE=nirla.settings
+
