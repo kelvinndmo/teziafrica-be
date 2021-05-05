@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('accounts/', include('allauth.urls')),
     path('auth/', include('authentication.urls')),
-    # path('accounts/', include('authentication.urls')),
+    path('clients/', include('clients.urls')),
 ]
 
 if settings.DEBUG:

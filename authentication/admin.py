@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 
-from authentication.models import User, Client
+from authentication.models import User
 
 AdminSite.site_title = 'Tezi Admin'
 AdminSite.site_header = 'Tezi Admin Panel'
 
 admin.site.register(User)
-admin.site.register(Client)
+# admin.site.register(Client)
 
 

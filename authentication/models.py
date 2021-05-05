@@ -6,6 +6,7 @@ from django.conf import settings
 from django.db import models
 
 
+
 class UserManager(BaseUserManager):
     """" 
     We need to override the `create_user` method so that users can
@@ -105,19 +106,3 @@ class User(AbstractBaseUser):
 
         return token.decode('utf-8')
 
-
-class Client(models.Model):
-    """This class defines the client Company Model"""
-    
-    client_name = models.CharField(max_length=100, unique=True)
-    client_admin = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='employer'
-    )
-    phone = models.CharField(max_length=17, unique=True)
-    email = models.EmailField(unique=True)
-    address = models.CharField('physical address', max_length=1024,
-    )
-    objects = models.Manager()
-    
-    def __str__(self):
-        return self.client_name

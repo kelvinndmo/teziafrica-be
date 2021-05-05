@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'authentication',
     'clients',
     'flowbuilder',
+    'rest_framework',
      
     'allauth',
     'allauth.account',
