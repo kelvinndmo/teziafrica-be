@@ -1,6 +1,7 @@
 #VS-Code
 .vscode
-
+virtual/
+.env
 #Mac
 .DS_Store
 
