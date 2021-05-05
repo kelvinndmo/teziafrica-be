@@ -1,7 +1,6 @@
 #VS-Code
 .vscode
-virtual/
-.env
+
 #Mac
 .DS_Store
 
@@ -147,3 +146,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debu
+
+#Tests
+*.json
