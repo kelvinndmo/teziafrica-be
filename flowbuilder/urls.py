@@ -1,17 +1,22 @@
-from django.urls import path , include
-from django.contrib import admin
-from django.contrib.auth import views
-from flowbuilder import views
-
-
-# from flowbuilder import views
-from rest_framework import routers, serializers, viewsets
-
+from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
+from . import views
+from .views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("",views.ListQuizAPIView.as_view(),name="flowbuilder_list"),
-    path("create/", views.CreateQuizAPIView.as_view(),name="flowbuilder_create"),
-    path("update/",views.UpdateQuizAPIView.as_view(),name="flowbuilder_update"),
-    path("delete/",views.DeleteQuizAPIView.as_view(),name="flowbuilder_delete")
+   path('', views.apiRequest, name='flowbuilder'),
+   path('api/v1/flowbuilders/view', views.QuizList.as_view(), name='api/v1/flowbuilders/view'),
+   path('api/v1/flowbuilder/view/details/<int:pk>/', views.QuizDetails.as_view(), name='api/v1/flowbuilder/view/details'),
+   path('api/v1/flowbuilder/update/<int:pk>/', views.QuizUpdate.as_view(), name='api/v1/flowbuilder/update'),
+   path('api/v1/flowbuilder/delete/<int:pk>/', views.QuizDelete.as_view(), name='api/v1/flowbuilder/delete'),
+   path('api/v1/flowbuilder/create/', views.QuizCreate.as_view(), name='api/v1/flowbuilder/create'),
+
+   path('api/v1/flowbuilders/responses/view', views.QuizResponsesList.as_view(), name='api/v1/flowbuilders/responses/view'),
+   path('api/v1/flowbuilder/response/view/details/<int:pk>/', views.QuizResponsesDetails.as_view(), name='api/v1/flowbuilder/response/view/details'),
+   path('api/v1/flowbuilder/response/update/<int:pk>/', views.QuizResponsesUpdate.as_view(), name='api/v1/flowbuilder/response/update'),
+   path('api/v1/flowbuilder/response/delete/<int:pk>/', views.QuizResponsesDelete.as_view(), name='api/v1/flowbuilder/response/delete'),
+   path('api/v1/flowbuilder/response/create/', views.QuizResponsesCreate.as_view(), name='api/v1/flowbuilder/response/create'),
+   path('api/v1/flowbuilder/all', views.AllFlowView.as_view(), name='api/v1/flowbuilder/all')
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

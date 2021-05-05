@@ -1,13 +1,17 @@
 from rest_framework import serializers
-from flowbuilder.models import Quiz , QuizResponses
+from .models import Quiz, QuizResponses
+
 
 class QuizSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Quiz
-        fields = "__all__"
 
-class QuizResponseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuizResponses
-        fields = "__all__"
+  class Meta:
+    model = Quiz
+    fields = ['id','user', 'title']
 
+
+
+class QuizResponsesSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = QuizResponses
+    fields = ['id', 'quiz', 'reply', 'author', 'order']
