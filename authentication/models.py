@@ -1,27 +1,100 @@
 from django.db import models
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.core.mail import send_mail
-from django.contrib.auth.base_user import BaseUserManager
-
-
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+from datetime import datetime, timedelta
+import jwt
+from django.conf import settings
 # Create your models here.
 
+class UserManager(BaseUserManager):
+    def create_user(self, first_name=None, last_name=None, email=None, password=None, role="CL"):
+        if not first_name:
+            raise TypeError('Users must have a first name.')
 
-class User(AbstractBaseUser, PermissionsMixin):
+        if not last_name:
+            raise TypeError('Users must have a last name.')
 
-    CUSTOMER = 1
-    CLIENT = 2
-    ADMIN = 3
-    GUEST = 4
-    QUIZ = 5
-    QUIZRESPONSE = 6
-    ROLE_CHOICES = (
-        (CUSTOMER, 'customer'),
-        (CLIENT, 'client'),
-        (ADMIN, 'admin'),
-        (GUEST, 'guest'),
-        (QUIZ, 'quiz'),
-        (QUIZRESPONSE, 'quizresponse'),
+        if not email:
+            raise TypeError('Users must have an email address.')
+
+        if not password:
+            raise TypeError('Users must have a password.')
+        
+
+        user = self.model(
+            first_name=first_name,
+            last_name=last_name,
+            email=self.normalize_email(email),
+            username=self.normalize_email(email)
+        )
+
+        user.set_password(password)
+        user.role = role
+        user.save()
+        return user
+
+
+    def create_superuser(self, first_name=None, last_name=None, email=None, password=None):
+        if not first_name:
+            raise TypeError('Users must have a first name.')
+
+        if not last_name:
+            raise TypeError('Users must have a last name.')
+
+        if not email:
+            raise TypeError('Users must have an email address.')
+
+        if not password:
+            raise TypeError('Users must have a password.')
+        
+
+        user = self.model(
+            first_name=first_name,
+            last_name=last_name,
+            email=self.normalize_email(email),
+            role='AD'
+        )
+
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
+        user.set_password(password)
+        user.save()
+        return user
+
+
+class User(AbstractUser):
+
+    USER_ROLES = (
+        ('AD', 'TEZI ADMIN'),
+        ('CO', 'COMPANY'),
+        ('ST', 'STAFF'),
+        ('CL', 'CLIENT')
     )
 
+    username = models.CharField(null=True, blank=True, max_length=100, unique=True)
+    email = models.EmailField(unique=True)
+    role = models.CharField(verbose_name="user_role", max_length=2, choices=USER_ROLES, default='CL')
+
+    USERNAME_FIELD = 'email'
+
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    objects = UserManager()
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+    
+    @property
+    def token(self):
+        return self._generate_jwt_token()
+
+    def _generate_jwt_token(self):
+        token_expiry = datetime.now() + timedelta(hours=24)
+
+        token = jwt.encode({
+            'id': self.pk,
+            'email': self.email,
+            'exp':int(token_expiry.strftime('%s'))
+        }, settings.SECRET_KEY, algorithm='HS256')
+
+        return token
