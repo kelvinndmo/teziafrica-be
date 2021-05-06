@@ -187,24 +187,24 @@ api_secret = os.getenv('CLOUDINARY_API_SECRET')
 DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
-# X_FRAME_OPTIONS = 'DENY'
+X_FRAME_OPTIONS = 'DENY'
 # SECURE_SSL_REDIRECT=True
-# SESSION_COOKIE_SECURE=True
-# CSRF_COOKIE_SECURE=True
-# SECURE_HSTS_SECONDS=31536000
-# SECURE_CONTENT_TYPE_NOSNIFF=True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS=True
-# SECURE_HSTS_PRELOAD=True
+SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE=True
+SECURE_HSTS_SECONDS=31536000
+SECURE_CONTENT_TYPE_NOSNIFF=True
+SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+SECURE_HSTS_PRELOAD=True
 
-# CSP_DEFAULT_SRC = ("'none'",)
-# CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
-# CSP_SCRIPT_SRC = ("'self'",)
-# CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')
-# CSP_IMG_SRC = ("'self'",'res.cloudinary.com')
-# SECURE_BROWSER_XSS_FILTER = True
-# CSRF_USE_SESSIONS = True
-# CSRF_COOKIE_HTTPONLY = True
-# SESSION_COOKIE_SAMESITE = 'Strict'
+CSP_DEFAULT_SRC = ("'none'",)
+CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')
+CSP_IMG_SRC = ("'self'",'res.cloudinary.com')
+SECURE_BROWSER_XSS_FILTER = True
+CSRF_USE_SESSIONS = True
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Strict'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
