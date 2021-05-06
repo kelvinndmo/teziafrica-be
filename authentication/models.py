@@ -6,7 +6,7 @@ from django.conf import settings
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self, first_name=None, last_name=None, email=None, password=None, role="CL"):
+    def create(self, first_name=None, last_name=None, email=None, password=None, role="CL"):
         if not first_name:
             raise TypeError('Users must have a first name.')
 
@@ -28,6 +28,7 @@ class UserManager(BaseUserManager):
         )
 
         user.set_password(password)
+        # import pdb; pdb.set_trace()
         user.role = role
         user.save()
         return user

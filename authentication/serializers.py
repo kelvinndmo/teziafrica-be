@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from authentication.models import User
 from rest_framework.authentication import authenticate
-# import bcrypt 
 
-class RegisterationSerializer(serializers.Serializer):
+class RegisterationSerializer(serializers.ModelSerializer):
 
   first_name = serializers.CharField()
   last_name = serializers.CharField()
@@ -12,15 +11,13 @@ class RegisterationSerializer(serializers.Serializer):
         ('CO', 'COMPANY'),
         ('ST', 'STAFF'),
         ('CL', 'CLIENT')])
-    
+        
   password = serializers.CharField(min_length=8,
   write_only=True,
   error_messages={
     "min_length": "Password should be at least 8 characters"
       }
   )
-
-  # hashed = bcrypt.hashpw(password, bcrypt.gensalt())
 
   class Meta:
     model = User
@@ -31,16 +28,8 @@ class RegisterationSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-
-  password = serializers.CharField(min_length=8,
-  write_only=True,
-  error_messages={
-    "min_length": "Password should be at least 8 characters"
-      }
-  )
   class Meta:
     model = User
-    # exclude = ['password']
     fields = '__all__'
 
 
@@ -69,12 +58,6 @@ class LoginSerializer(serializers.Serializer):
     
     return user
 
-  password = serializers.CharField(min_length=8,
-  write_only=True,
-  error_messages={
-    "min_length": "Password should be at least 8 characters"
-      }
-  )
   class Meta:
     model = User
     fields = ['email', 'token', 'role', 'password']
