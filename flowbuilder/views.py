@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.generics import GenericAPIView 
 from rest_framework import mixins
 from rest_framework import status
 from rest_framework import permissions
@@ -12,7 +13,8 @@ from drf_multiple_model.pagination import MultipleModelLimitOffsetPagination
 # from utils.permissions import IsOwnerOrReadOnly
 
 
-# Create your views here.
+class API(GenericAPIView):
+  serializer_class = QuizSerializer
 
 @api_view(['GET'])
 def apiRequest(request):
