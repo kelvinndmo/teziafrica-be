@@ -13,8 +13,10 @@ from utils.permissions import IsTeziAdmin
 @api_view(['GET'])
 def apiRequest(request):
     api_endpoints = {
-        'Register': 'register/',
-        'Login': 'login/',
+        'Swagger Endpoints View': '/swagger/',
+        'API Documentation': '/redoc/',
+        'Register': '/register/',
+        'Login': '/login/',
         'Users List':'api/v1/allprofiles/view/',
         'User Detail View':'api/v1/profile/view/details/<int:pk>/',
         'User Create':'api/v1/profile/create/',

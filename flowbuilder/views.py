@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.generics import GenericAPIView 
 from rest_framework import mixins
 from rest_framework import status
 from rest_framework import permissions
@@ -11,11 +10,9 @@ from rest_framework.decorators import api_view
 from drf_multiple_model.views import ObjectMultipleModelAPIView
 from drf_multiple_model.pagination import MultipleModelLimitOffsetPagination
 # from utils.permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import BasePermission, IsAdminUser, DjangoModelPermissionsOrAnonReadOnly, SAFE_METHODS
 
 
-class API(GenericAPIView):
-  serializer_class = QuizSerializer
+# Create your views here.
 
 @api_view(['GET'])
 def apiRequest(request):
@@ -35,43 +32,31 @@ def apiRequest(request):
     }
     return Response(api_endpoints)
 
-class PostUserWritePermissions(BasePermission):
-  message = 'only the auther can edit this!'
-  def has_object_permission(self, request, view, obj):
-    if request.method in SAFE_METHODS:
-      return True
-    return obj.author == request.user
-
 
 class QuizList(generics.ListAPIView):
-  permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
   queryset = Quiz.objects.all()
   serializer_class = QuizSerializer 
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class QuizDetails(generics.RetrieveAPIView, PostUserWritePermissions):
-  permission_classes = [PostUserWritePermissions]
+class QuizDetails(generics.RetrieveAPIView):
   queryset = Quiz.objects.all()
   serializer_class = QuizSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-class QuizCreate(generics.ListCreateAPIView, PostUserWritePermissions):
-  permission_classes = [PostUserWritePermissions]
-  queryset = Quiz.objects.all()
-  serializer_class = QuizSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-
-
-class QuizUpdate(generics.RetrieveUpdateAPIView, PostUserWritePermissions):
-  permission_classes = [PostUserWritePermissions]
+class QuizCreate(generics.ListCreateAPIView):
   queryset = Quiz.objects.all()
   serializer_class = QuizSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class QuizDelete(generics.RetrieveDestroyAPIView, PostUserWritePermissions):
-  permission_classes = [PostUserWritePermissions]
+class QuizUpdate(generics.RetrieveUpdateAPIView):
+  queryset = Quiz.objects.all()
+  serializer_class = QuizSerializer
+  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+class QuizDelete(generics.RetrieveDestroyAPIView):
   queryset = Quiz.objects.all()
   serializer_class = QuizSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
@@ -80,34 +65,29 @@ class QuizDelete(generics.RetrieveDestroyAPIView, PostUserWritePermissions):
 
 
 class QuizResponsesList(generics.ListAPIView):
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
     queryset = QuizResponses.objects.all()
     serializer_class = QuizResponsesSerializer 
     #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class QuizResponsesDetails(generics.RetrieveAPIView, PostUserWritePermissions):
-  permission_classes = [PostUserWritePermissions]
+class QuizResponsesDetails(generics.RetrieveAPIView):
   queryset = QuizResponses.objects.all()
   serializer_class = QuizResponsesSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-class QuizResponsesCreate(generics.ListCreateAPIView, PostUserWritePermissions):
-  permission_classes = [PostUserWritePermissions]
-  queryset = QuizResponses.objects.all()
-  serializer_class = QuizResponsesSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-
-
-class QuizResponsesUpdate(generics.RetrieveUpdateAPIView, PostUserWritePermissions):
-  permission_classes = [PostUserWritePermissions]
+class QuizResponsesCreate(generics.ListCreateAPIView):
   queryset = QuizResponses.objects.all()
   serializer_class = QuizResponsesSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class QuizResponsesDelete(generics.RetrieveDestroyAPIView, PostUserWritePermissions):
-  permission_classes = [PostUserWritePermissions]
+class QuizResponsesUpdate(generics.RetrieveUpdateAPIView):
+  queryset = QuizResponses.objects.all()
+  serializer_class = QuizResponsesSerializer
+  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+class QuizResponsesDelete(generics.RetrieveDestroyAPIView):
   queryset = QuizResponses.objects.all()
   serializer_class = QuizResponsesSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
@@ -117,6 +97,7 @@ class LimitPagination(MultipleModelLimitOffsetPagination):
     default_limit = 2
 
 class AllFlowView(ObjectMultipleModelAPIView):
+    serializer_class = QuizSerializer
     pagination_class = LimitPagination
     querylist = [
         {'queryset': Quiz.objects.all(), 'serializer_class': QuizSerializer},
