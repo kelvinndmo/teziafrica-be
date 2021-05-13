@@ -15,7 +15,7 @@ from authentication.models import User
 class Ticket(models.Model):
    post = HTMLField()
    date_posted = models.DateTimeField(default=timezone.now)
-   image = models.ImageField('Image file', upload_to='tezi_images/')
+   image = models.ImageField('Image file', upload_to='tezi_images/tickets')
    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
    def __str__(self):
