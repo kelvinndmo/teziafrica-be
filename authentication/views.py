@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from authentication.models import User
 from authentication.serializers import UserSerializer, RegisterationSerializer, LoginSerializer
 from rest_framework.decorators import api_view
-from utils.permissions import IsTeziAdmin 
+from utils.permissions import IsAdminOrReadOnly
+from rest_framework.permissions import IsAdminUser
 # Create your views here.
 
 @api_view(['GET'])
@@ -31,6 +32,7 @@ def apiRequest(request):
 
 class RegistrationAPIView(generics.CreateAPIView):
   serializer_class = RegisterationSerializer
+  permission_classes = [permissions.AllowAny]
 
   def post(self, request):
       serializer = self.serializer_class(data=request.data)
@@ -48,6 +50,7 @@ class RegistrationAPIView(generics.CreateAPIView):
 
 class LoginAPIView(generics.CreateAPIView):
   serializer_class = LoginSerializer
+  permission_classes = [permissions.AllowAny]
 
   def post(self, request):
       serializer = self.serializer_class(data=request.data)
@@ -65,28 +68,27 @@ class LoginAPIView(generics.CreateAPIView):
 class UserList(generics.ListAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
-  # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+  permission_classes = [IsAdminUser]
 
 
 class UserDetails(generics.RetrieveAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsAdminUser]
 
 class UserCreate(generics.ListCreateAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
-  # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-  permission_classes = (IsTeziAdmin,)
+  permission_classes = [IsAdminOrReadOnly]
 
 
 class UserUpdate(generics.RetrieveUpdateAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
-  # permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAdmin0rCompany]
+  permission_classes = [IsAdminUser]
 
 
 class UserDelete(generics.RetrieveDestroyAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
-  # permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, IsAdmin0rCompany]
+  permission_classes = [IsAdminUser]

@@ -33,7 +33,7 @@ load_dotenv(dotenv_path=env_path)
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG =  False
 
 ALLOWED_HOSTS = ['127.0.0.1',
 'tezi-be.herokuapp.com'
@@ -98,7 +98,7 @@ REST_FRAMEWORK = {
     'authentication.backends.JWTAuthentication',),
     
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
     'DEFAULT_VERSION': 'v1',
