@@ -39,7 +39,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
   class Meta:
     model = Company
-    fields = ['approval_status', 'company_name', 'company_admin', 'phone', 'email', 'address', 'industry', 'password']
+    fields = ['approval_status', 'company_name', 'company_admin', 'phone', 'email', 'address', 'industry']
 
 class LoginSerializer(serializers.Serializer):
   email = serializers.EmailField()
