@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from datetime import datetime, timedelta
 import jwt
 from django.conf import settings
+from utils.models import BaseAbstractModel
+from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib.postgres.fields import JSONField
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -99,3 +102,41 @@ class User(AbstractUser):
         }, settings.SECRET_KEY, algorithm='HS256')
 
         return token
+
+
+class Company(BaseAbstractModel):
+    """This class defines the Company Model"""
+
+    APPROVAL_STATUS = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+        ('revoked', 'Revoked'),
+    ]
+
+    INDUSTRY_CHOICES=[
+        ('entertainment', 'Entertainment'),
+        ('manufacturing', 'Manufactiring'),
+        ('real_estate', 'Real_estate'),
+        ('accommodation services', 'Accommodation services'),
+        ('financial and insurance', 'Financial and Insurance'),
+        ('information and communication', 'Information and Communication'),
+    ]
+
+
+    approval_status = models.CharField(
+        max_length=10, choices=APPROVAL_STATUS, default='pending')
+
+    company_name = models.CharField(max_length=100, unique=True)
+    company_admin = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='employer'
+    )
+    phone = models.CharField(max_length=17, unique=True)
+    email = models.EmailField(unique=True)
+    address = JSONField(
+        verbose_name='physical address', encoder=DjangoJSONEncoder
+    )
+    industry = models.CharField(max_length=100, choices=INDUSTRY_CHOICES, default='information and communication')
+
+    def __str__(self):
+        return self.company_name

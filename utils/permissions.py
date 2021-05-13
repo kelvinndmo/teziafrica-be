@@ -2,8 +2,9 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
+
 class IsOwner(BasePermission):
-    """ a user can be able to edit a property enquiry belonging to only him """
+    """ a user can be able to edit an item enquiry belonging they own """
     
     message = 'Editting restricted to owner only!'
 
@@ -15,6 +16,8 @@ class IsOwner(BasePermission):
             return True
 
         return obj.requester == user
+
+
 
 class IsAdminOrReadOnly(BasePermission):
     """ Check if user is admin and logged in then grants access."""
@@ -29,8 +32,10 @@ class IsAdminOrReadOnly(BasePermission):
             request.user.role == 'AD'
         )
 
+
+
 class IsCompanyOrReadOnly(BasePermission):
-    """ Check if user is admin and logged in then grants access."""
+    """ Check if user is company and logged in then grants access."""
     
     message = 'Editting restricted to company only!'
 
@@ -43,8 +48,9 @@ class IsCompanyOrReadOnly(BasePermission):
         )
 
 
+
 class IsStaffOrReadOnly(BasePermission):
-    """ Check if user is admin and logged in then grants access."""
+    """ Check if user is staff and logged in then grants access."""
     
     message = 'Editting restricted to staff only!'
 
@@ -58,7 +64,7 @@ class IsStaffOrReadOnly(BasePermission):
 
 
 class IsClientOrReadOnly(BasePermission):
-    """ Check if user is admin and logged in then grants access."""
+    """ Check if user is client logged in then grants access."""
     
     message = 'Editting restricted to client only!'
 
@@ -71,6 +77,27 @@ class IsClientOrReadOnly(BasePermission):
         )
 
 
+class IsCompanyAdmin(BasePermission):
+    """Grants approved Company admins full access"""
+
+    def has_permission(self, request, view):
+        user = request.user if request.user.is_authenticated else None
+        if user:
+            company = user.employer.first()
+            return company and user.role == 'CA' and \
+                company.approval_status == 'approved'
 
 
+class CanEditItem(BasePermission):
+    """Company admins should be able to edit items they own"""
 
+    def has_object_permission(self, request, view, obj):
+
+        user = request.user
+        if request.method in SAFE_METHODS:
+            return True
+        if user.is_authenticated and user.role == 'C0':
+            return user == obj.company.company_admin
+        if user.is_authenticated and user.role == 'AD':
+            return True
+        return False

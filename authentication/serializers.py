@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from authentication.models import User
+from authentication.models import User, Company
 from rest_framework.authentication import authenticate
 
 class RegisterationSerializer(serializers.ModelSerializer):
@@ -33,6 +34,12 @@ class UserSerializer(serializers.ModelSerializer):
     model = User
     fields = ['email', 'first_name', 'last_name', 'role', 'password']
 
+
+
+class CompanySerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Company
+    fields = ['approval_status', 'company_name', 'company_admin', 'phone', 'email', 'address', 'industry', 'password']
 
 class LoginSerializer(serializers.Serializer):
   email = serializers.EmailField()
