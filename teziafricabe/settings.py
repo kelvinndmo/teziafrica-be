@@ -112,7 +112,7 @@ WSGI_APPLICATION = 'teziafricabe.wsgi.application'
 
 
 
-# Database
+# Local Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
@@ -123,7 +123,7 @@ DATABASES = {
 }
 
 
-# Database
+# Online Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 # DATABASES = {
