@@ -4,10 +4,10 @@ from rest_framework import mixins
 from rest_framework import status
 from rest_framework import permissions
 from rest_framework.response import Response
-from authentication.models import User, Company
-from authentication.serializers import UserSerializer, RegisterationSerializer, LoginSerializer, CompanySerializer
+from authentication.models import User, Company, Staff
+from authentication.serializers import UserSerializer, RegisterationSerializer, LoginSerializer, CompanySerializer, StaffSerializer
 from rest_framework.decorators import api_view
-from utils.permissions import IsAdminOrReadOnly
+from utils.permissions import IsAdminOrReadOnly, IsCompanyOrReadOnly
 from rest_framework.permissions import IsAdminUser
 # Create your views here.
 
@@ -29,6 +29,12 @@ def apiRequest(request):
         'Company Create':'api/v1/company/create/',
         'Company Update':'api/v1/company/update/<int:pk>/',
         'Company Delete':'api/v1/company/delete/<int:pk>/',
+
+        'Staff List':'api/v1/allstaff/view/',
+        'Staff Detail View':'api/v1/staff/view/details/<int:pk>/',
+        'Staff Create':'api/v1/staff/create/',
+        'Staff Update':'api/v1/staff/update/<int:pk>/',
+        'Staff Delete':'api/v1/staff/delete/<int:pk>/',
 
         'Articles Endpoints':'articles/',
         'FlowBuilder Endpoints':'flowbuilder/',
@@ -86,7 +92,7 @@ class UserDetails(generics.RetrieveAPIView):
 class UserCreate(generics.ListCreateAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
-  permission_classes = [IsAdminOrReadOnly]
+  permission_classes = [IsAdminUser]
 
 
 class UserUpdate(generics.RetrieveUpdateAPIView):
@@ -94,11 +100,11 @@ class UserUpdate(generics.RetrieveUpdateAPIView):
   serializer_class = UserSerializer
   permission_classes = [IsAdminUser]
 
-
 class UserDelete(generics.RetrieveDestroyAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
   permission_classes = [IsAdminUser]
+
 
 
 class CompanyList(generics.ListAPIView):
@@ -126,4 +132,33 @@ class CompanyUpdate(generics.RetrieveUpdateAPIView):
 class CompanyDelete(generics.RetrieveDestroyAPIView):
   queryset = Company.objects.all()
   serializer_class = CompanySerializer
+  permission_classes = [IsAdminUser]
+
+
+
+class StaffList(generics.ListAPIView):
+  queryset = Staff.objects.all()
+  serializer_class = StaffSerializer
+  permission_classes = [IsAdminUser]
+
+
+class StaffDetails(generics.RetrieveAPIView):
+  queryset = Staff.objects.all()
+  serializer_class = StaffSerializer
+  permission_classes = [IsAdminUser]
+  
+class StaffCreate(generics.ListCreateAPIView):
+  queryset = Staff.objects.all()
+  serializer_class = StaffSerializer
+  permission_classes = [IsAdminOrReadOnly]
+
+
+class StaffUpdate(generics.RetrieveUpdateAPIView):
+  queryset = Staff.objects.all()
+  serializer_class = StaffSerializer
+  permission_classes = [IsAdminUser]
+
+class StaffDelete(generics.RetrieveDestroyAPIView):
+  queryset = Staff.objects.all()
+  serializer_class = StaffSerializer
   permission_classes = [IsAdminUser]

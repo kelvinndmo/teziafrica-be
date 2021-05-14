@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Quiz, QuizResponses
+from .models import ChatInput, ChatOutPut
 
 # Register your models here.
 
-admin.site.register(Quiz)
-admin.site.register(QuizResponses)
+admin.site.register(ChatInput)
+admin.site.register(ChatOutPut)

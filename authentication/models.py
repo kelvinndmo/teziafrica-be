@@ -4,8 +4,6 @@ from datetime import datetime, timedelta
 import jwt
 from django.conf import settings
 from utils.models import BaseAbstractModel
-from django.core.serializers.json import DjangoJSONEncoder
-from django.contrib.postgres.fields import JSONField
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -86,7 +84,7 @@ class User(AbstractUser):
     objects = UserManager()
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'Name: {self.first_name} {self.last_name} | Role: {self.role}'
     
     @property
     def token(self):
@@ -133,10 +131,34 @@ class Company(BaseAbstractModel):
     )
     phone = models.CharField(max_length=17, unique=True)
     email = models.EmailField(unique=True)
-    address = JSONField(
-        verbose_name='physical address', encoder=DjangoJSONEncoder
-    )
+    address = address = models.CharField(max_length=100)
     industry = models.CharField(max_length=100, choices=INDUSTRY_CHOICES, default='information and communication')
 
     def __str__(self):
-        return self.company_name
+        return f'{self.company_name}'
+
+
+class Staff(BaseAbstractModel):
+    """This class defines the Staff Model"""
+
+    APPROVAL_STATUS = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+        ('revoked', 'Revoked'),
+    ]
+
+
+    approval_status = models.CharField(
+        max_length=10, choices=APPROVAL_STATUS, default='pending')
+
+    staff_name = models.CharField(max_length=100)
+    staff_company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name='staff_company'
+    )
+    phone = models.CharField(max_length=17, unique=True)
+    email = models.EmailField(unique=True)
+    address = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'Name: {self.staff_name} | Company: {self.staff_company}'

@@ -18,7 +18,14 @@ urlpatterns = [
     path('api/v1/company/view/details/<int:pk>/', views.CompanyDetails.as_view(), name='api/v1/company/view/details'),
     path('api/v1/company/update/<int:pk>/', views.CompanyUpdate.as_view(), name='api/v1/company/update'),
     path('api/v1/company/delete/<int:pk>/', views.CompanyDelete.as_view(), name='api/v1/company/delete'),
-    path('api/v1/company/create/', views.CompanyCreate.as_view(), name='api/v1/company/create')
+    path('api/v1/company/create/', views.CompanyCreate.as_view(), name='api/v1/company/create'),
+
+
+    path('api/v1/allstaff/view/', views.StaffList.as_view(), name='api/v1/allstaff/view'),
+    path('api/v1/staff/view/details/<int:pk>/', views.StaffDetails.as_view(), name='api/v1/staff/view/details'),
+    path('api/v1/staff/update/<int:pk>/', views.StaffUpdate.as_view(), name='api/v1/staff/update'),
+    path('api/v1/staff/delete/<int:pk>/', views.StaffDelete.as_view(), name='api/v1/staff/delete'),
+    path('api/v1/staff/create/', views.StaffCreate.as_view(), name='api/v1/staff/create')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

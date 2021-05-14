@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from .models import Quiz, QuizResponses
+from .models import ChatInput, ChatOutPut
 
 
-class QuizSerializer(serializers.ModelSerializer):
-
-  class Meta:
-    model = Quiz
-    fields = ['id','user', 'title']
-
-
-
-class QuizResponsesSerializer(serializers.ModelSerializer):
+class ChatInputSerializer(serializers.ModelSerializer):
 
   class Meta:
-    model = QuizResponses
-    fields = ['id', 'quiz', 'reply', 'author', 'order']
+    model = ChatInput
+    fields = ['id', 'company', 'title']
+
+
+
+class ChatOutPutSerializer(serializers.ModelSerializer):
+
+  class Meta:
+    model = ChatOutPut
+    fields = ['id', 'chatinput', 'reply', 'author', 'order']

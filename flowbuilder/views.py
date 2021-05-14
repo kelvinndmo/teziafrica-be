@@ -4,8 +4,8 @@ from rest_framework import mixins
 from rest_framework import status
 from rest_framework import permissions
 from rest_framework.response import Response
-from .models import Quiz, QuizResponses
-from .serializers import QuizSerializer, QuizResponsesSerializer
+from .models import ChatInput, ChatOutPut
+from .serializers import ChatInputSerializer, ChatOutPutSerializer
 from rest_framework.decorators import api_view
 from drf_multiple_model.views import ObjectMultipleModelAPIView
 from drf_multiple_model.pagination import MultipleModelLimitOffsetPagination
@@ -17,79 +17,79 @@ from drf_multiple_model.pagination import MultipleModelLimitOffsetPagination
 @api_view(['GET'])
 def apiRequest(request):
     api_endpoints = {
-        'Quizs List':'flowbuilder/api/v1/flowbuilders/view',
-        'Quiz Detail View':'flowbuilder/api/v1/flowbuilder/view/details/<int:pk>/',
-        'Quiz Create':'flowbuilder/api/v1/flowbuilder/create/',
-        'Quiz Update':'flowbuilder/api/v1/flowbuilder/update/<int:pk>/',
-        'Quiz Delete':'flowbuilder/api/v1/flowbuilder/delete/<int:pk>/',
+        'ChatInput List':'flowbuilder/api/v1/flowbuilders/view',
+        'ChatInput Detail View':'flowbuilder/api/v1/flowbuilder/view/details/<int:pk>/',
+        'ChatInput Create':'flowbuilder/api/v1/flowbuilder/create/',
+        'ChatInput Update':'flowbuilder/api/v1/flowbuilder/update/<int:pk>/',
+        'ChatInput Delete':'flowbuilder/api/v1/flowbuilder/delete/<int:pk>/',
 
-        'Quiz Responses List':'flowbuilder/api/v1/flowbuilders/responses/view',
-        'Quiz Responses Detail View':'flowbuilder/api/v1/flowbuilder/response/view/details/<int:pk>/',
-        'Quiz Responses Create':'flowbuilder/api/v1/flowbuilder/response/create/',
-        'Quiz Responses Update':'flowbuilder/api/v1/flowbuilder/response/update/<int:pk>/',
-        'Quiz Responses Delete':'flowbuilder/api/v1/flowbuilder/response/delete/<int:pk>/',
+        'ChatOutPut List':'flowbuilder/api/v1/flowbuilders/responses/view',
+        'ChatOutPut Detail View':'flowbuilder/api/v1/flowbuilder/response/view/details/<int:pk>/',
+        'ChatOutPut Create':'flowbuilder/api/v1/flowbuilder/response/create/',
+        'ChatOutPut Update':'flowbuilder/api/v1/flowbuilder/response/update/<int:pk>/',
+        'ChatOutPut Delete':'flowbuilder/api/v1/flowbuilder/response/delete/<int:pk>/',
         'All FlowBuilder Items': 'flowbuilder/api/v1/flowbuilder/all',
     }
     return Response(api_endpoints)
 
 
-class QuizList(generics.ListAPIView):
-  queryset = Quiz.objects.all()
-  serializer_class = QuizSerializer 
+class ChatInputList(generics.ListAPIView):
+  queryset = ChatInput.objects.all()
+  serializer_class = ChatInputSerializer 
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class QuizDetails(generics.RetrieveAPIView):
-  queryset = Quiz.objects.all()
-  serializer_class = QuizSerializer
+class ChatInputDetails(generics.RetrieveAPIView):
+  queryset = ChatInput.objects.all()
+  serializer_class = ChatInputSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-class QuizCreate(generics.ListCreateAPIView):
-  queryset = Quiz.objects.all()
-  serializer_class = QuizSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-
-
-class QuizUpdate(generics.RetrieveUpdateAPIView):
-  queryset = Quiz.objects.all()
-  serializer_class = QuizSerializer
+class ChatInputCreate(generics.ListCreateAPIView):
+  queryset = ChatInput.objects.all()
+  serializer_class = ChatInputSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class QuizDelete(generics.RetrieveDestroyAPIView):
-  queryset = Quiz.objects.all()
-  serializer_class = QuizSerializer
+class ChatInputUpdate(generics.RetrieveUpdateAPIView):
+  queryset = ChatInput.objects.all()
+  serializer_class = ChatInputSerializer
+  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+class ChatInputDelete(generics.RetrieveDestroyAPIView):
+  queryset = ChatInput.objects.all()
+  serializer_class = ChatInputSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 
 
-class QuizResponsesList(generics.ListAPIView):
-    queryset = QuizResponses.objects.all()
-    serializer_class = QuizResponsesSerializer 
+class ChatOutPutList(generics.ListAPIView):
+    queryset = ChatOutPut.objects.all()
+    serializer_class = ChatOutPutSerializer 
     #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class QuizResponsesDetails(generics.RetrieveAPIView):
-  queryset = QuizResponses.objects.all()
-  serializer_class = QuizResponsesSerializer
+class ChatOutPutDetails(generics.RetrieveAPIView):
+  queryset = ChatOutPut.objects.all()
+  serializer_class = ChatOutPutSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-class QuizResponsesCreate(generics.ListCreateAPIView):
-  queryset = QuizResponses.objects.all()
-  serializer_class = QuizResponsesSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-
-
-class QuizResponsesUpdate(generics.RetrieveUpdateAPIView):
-  queryset = QuizResponses.objects.all()
-  serializer_class = QuizResponsesSerializer
+class ChatOutPutCreate(generics.ListCreateAPIView):
+  queryset = ChatOutPut.objects.all()
+  serializer_class = ChatOutPutSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class QuizResponsesDelete(generics.RetrieveDestroyAPIView):
-  queryset = QuizResponses.objects.all()
-  serializer_class = QuizResponsesSerializer
+class ChatOutPutUpdate(generics.RetrieveUpdateAPIView):
+  queryset = ChatOutPut.objects.all()
+  serializer_class = ChatOutPutSerializer
+  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+class ChatOutPutDelete(generics.RetrieveDestroyAPIView):
+  queryset = ChatOutPut.objects.all()
+  serializer_class = ChatOutPutSerializer
   #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
@@ -97,10 +97,10 @@ class LimitPagination(MultipleModelLimitOffsetPagination):
     default_limit = 2
 
 class AllFlowView(ObjectMultipleModelAPIView):
-    serializer_class = QuizSerializer
+    serializer_class = ChatInputSerializer
     pagination_class = LimitPagination
     querylist = [
-        {'queryset': Quiz.objects.all(), 'serializer_class': QuizSerializer},
-        {'queryset': QuizResponses.objects.all(), 'serializer_class': QuizResponsesSerializer},
+        {'queryset': ChatInput.objects.all(), 'serializer_class': ChatInputSerializer},
+        {'queryset': ChatOutPut.objects.all(), 'serializer_class': ChatOutPutSerializer},
     ]
     #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
