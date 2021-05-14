@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from articles.models import ArticlePost, Comment
 from .serializers import ArticleSerializer, CommentSerializer
 from rest_framework.decorators import api_view
-# from utils.permissions import IsOwnerOrReadOnly
+from utils.permissions import IsOwner, IsCompanyAdmin
+
 # Create your views here.
 
 @api_view(['GET'])
@@ -30,57 +31,57 @@ def apiRequest(request):
 class ArticleList(generics.ListAPIView):
   queryset = ArticlePost.objects.all()
   serializer_class = ArticleSerializer 
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-
+  permission_classes = [permissions.AllowAny]
 
 class ArticleDetails(generics.RetrieveAPIView):
   queryset = ArticlePost.objects.all()
   serializer_class = ArticleSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.AllowAny]
+
 
 class ArticleCreate(generics.ListCreateAPIView):
   queryset = ArticlePost.objects.all()
   serializer_class = ArticleSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsCompanyAdmin]
 
 
 class ArticleUpdate(generics.RetrieveUpdateAPIView):
   queryset = ArticlePost.objects.all()
   serializer_class = ArticleSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 class ArticleDelete(generics.RetrieveDestroyAPIView):
   queryset = ArticlePost.objects.all()
   serializer_class = ArticleSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 
 class CommentList(generics.ListAPIView):
   queryset = Comment.objects.all()
   serializer_class = CommentSerializer 
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.AllowAny]
 
 
 class CommentDetails(generics.RetrieveAPIView):
   queryset = Comment.objects.all()
   serializer_class = CommentSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.AllowAny]
 
 class CommentCreate(generics.ListCreateAPIView):
   queryset = Comment.objects.all()
   serializer_class = CommentSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class CommentUpdate(generics.RetrieveUpdateAPIView):
   queryset = Comment.objects.all()
   serializer_class = CommentSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 class CommentDelete(generics.RetrieveDestroyAPIView):
   queryset = Comment.objects.all()
   serializer_class = CommentSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]

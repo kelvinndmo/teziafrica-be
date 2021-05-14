@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from tickets.models import Ticket, Feedback
 from .serializers import TicketSerializer, FeedbackSerializer
 from rest_framework.decorators import api_view
-# from utils.permissions import IsOwnerOrReadOnly
+from utils.permissions import IsOwner, IsStaffOrReadOnly, IsClientOrReadOnly
 # Create your views here.
 
 @api_view(['GET'])
@@ -30,57 +30,60 @@ def apiRequest(request):
 class TicketList(generics.ListAPIView):
   queryset = Ticket.objects.all()
   serializer_class = TicketSerializer 
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class TicketDetails(generics.RetrieveAPIView):
   queryset = Ticket.objects.all()
   serializer_class = TicketSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 class TicketCreate(generics.ListCreateAPIView):
   queryset = Ticket.objects.all()
   serializer_class = TicketSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsClientOrReadOnly]
 
 
 class TicketUpdate(generics.RetrieveUpdateAPIView):
   queryset = Ticket.objects.all()
   serializer_class = TicketSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 class TicketDelete(generics.RetrieveDestroyAPIView):
   queryset = Ticket.objects.all()
   serializer_class = TicketSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 
 class FeedbackList(generics.ListAPIView):
   queryset = Feedback.objects.all()
   serializer_class = FeedbackSerializer 
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 
 class FeedbackDetails(generics.RetrieveAPIView):
   queryset = Feedback.objects.all()
   serializer_class = FeedbackSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 class FeedbackCreate(generics.ListCreateAPIView):
   queryset = Feedback.objects.all()
   serializer_class = FeedbackSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsStaffOrReadOnly]
 
 
 class FeedbackUpdate(generics.RetrieveUpdateAPIView):
   queryset = Feedback.objects.all()
   serializer_class = FeedbackSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 class FeedbackDelete(generics.RetrieveDestroyAPIView):
   queryset = Feedback.objects.all()
   serializer_class = FeedbackSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
