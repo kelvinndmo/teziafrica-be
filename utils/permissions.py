@@ -4,9 +4,9 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class IsOwner(BasePermission):
-    """ a user can be able to edit an item enquiry belonging they own """
+    """ a user can be able to edit an item enquiry belonging to them """
     
-    message = 'Editting restricted to owner only!'
+    message = 'Restricted to owner only!'
 
     def has_object_permission(self, request, view, obj):
 
@@ -15,14 +15,14 @@ class IsOwner(BasePermission):
         if request.method in SAFE_METHODS:
             return True
 
-        return obj.requester == user
+        return obj.id == user.id
 
 
 
 class IsAdminOrReadOnly(BasePermission):
     """ Check if user is admin and logged in then grants access."""
 
-    message = 'Editting restricted to admin only!'
+    message = 'Restricted to admin only!'
 
     def has_permission(self, request, view):
         return bool(
@@ -33,26 +33,23 @@ class IsAdminOrReadOnly(BasePermission):
         )
 
 
+class IsCompanyAdmin(BasePermission):
+    """Grants approved Company admins full access"""
 
-class IsCompanyOrReadOnly(BasePermission):
-    """ Check if user is company and logged in then grants access."""
-    
-    message = 'Editting restricted to company only!'
+    message = 'Restricted to approved company only!'
 
     def has_permission(self, request, view):
-        return bool(
-            request.method in SAFE_METHODS or
-            request.user and
-            request.user.is_authenticated and
-            request.user.role == 'CO'
-        )
-
+        user = request.user if request.user.is_authenticated else None
+        if user:
+            company = user.employer.first()
+            return company and user.role == 'CO' and \
+                company.approval_status == 'approved'
 
 
 class IsStaffOrReadOnly(BasePermission):
     """ Check if user is staff and logged in then grants access."""
     
-    message = 'Editting restricted to staff only!'
+    message = 'Restricted to staff only!'
 
     def has_permission(self, request, view):
         return bool(
@@ -66,7 +63,7 @@ class IsStaffOrReadOnly(BasePermission):
 class IsClientOrReadOnly(BasePermission):
     """ Check if user is client logged in then grants access."""
     
-    message = 'Editting restricted to client only!'
+    message = 'Restricted to client only!'
 
     def has_permission(self, request, view):
         return bool(
@@ -75,29 +72,3 @@ class IsClientOrReadOnly(BasePermission):
             request.user.is_authenticated and
             request.user.role == 'CL'
         )
-
-
-class IsCompanyAdmin(BasePermission):
-    """Grants approved Company admins full access"""
-
-    def has_permission(self, request, view):
-        user = request.user if request.user.is_authenticated else None
-        if user:
-            company = user.employer.first()
-            return company and user.role == 'CA' and \
-                company.approval_status == 'approved'
-
-
-class CanEditItem(BasePermission):
-    """Company admins should be able to edit items they own"""
-
-    def has_object_permission(self, request, view, obj):
-
-        user = request.user
-        if request.method in SAFE_METHODS:
-            return True
-        if user.is_authenticated and user.role == 'C0':
-            return user == obj.company.company_admin
-        if user.is_authenticated and user.role == 'AD':
-            return True
-        return False

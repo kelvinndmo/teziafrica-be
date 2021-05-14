@@ -9,7 +9,7 @@ from .serializers import ChatInputSerializer, ChatOutPutSerializer
 from rest_framework.decorators import api_view
 from drf_multiple_model.views import ObjectMultipleModelAPIView
 from drf_multiple_model.pagination import MultipleModelLimitOffsetPagination
-# from utils.permissions import IsOwnerOrReadOnly
+from utils.permissions import IsOwner, IsCompanyAdmin
 
 
 # Create your views here.
@@ -36,61 +36,60 @@ def apiRequest(request):
 class ChatInputList(generics.ListAPIView):
   queryset = ChatInput.objects.all()
   serializer_class = ChatInputSerializer 
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class ChatInputDetails(generics.RetrieveAPIView):
   queryset = ChatInput.objects.all()
   serializer_class = ChatInputSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ChatInputCreate(generics.ListCreateAPIView):
   queryset = ChatInput.objects.all()
   serializer_class = ChatInputSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsCompanyAdmin]
 
 
 class ChatInputUpdate(generics.RetrieveUpdateAPIView):
   queryset = ChatInput.objects.all()
   serializer_class = ChatInputSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 class ChatInputDelete(generics.RetrieveDestroyAPIView):
   queryset = ChatInput.objects.all()
   serializer_class = ChatInputSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-
+  permission_classes = [IsOwner]
 
 
 
 class ChatOutPutList(generics.ListAPIView):
     queryset = ChatOutPut.objects.all()
     serializer_class = ChatOutPutSerializer 
-    #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class ChatOutPutDetails(generics.RetrieveAPIView):
   queryset = ChatOutPut.objects.all()
   serializer_class = ChatOutPutSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ChatOutPutCreate(generics.ListCreateAPIView):
   queryset = ChatOutPut.objects.all()
   serializer_class = ChatOutPutSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsCompanyAdmin]
 
 
 class ChatOutPutUpdate(generics.RetrieveUpdateAPIView):
   queryset = ChatOutPut.objects.all()
   serializer_class = ChatOutPutSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 class ChatOutPutDelete(generics.RetrieveDestroyAPIView):
   queryset = ChatOutPut.objects.all()
   serializer_class = ChatOutPutSerializer
-  #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+  permission_classes = [IsOwner]
 
 
 class LimitPagination(MultipleModelLimitOffsetPagination):
@@ -103,4 +102,4 @@ class AllFlowView(ObjectMultipleModelAPIView):
         {'queryset': ChatInput.objects.all(), 'serializer_class': ChatInputSerializer},
         {'queryset': ChatOutPut.objects.all(), 'serializer_class': ChatOutPutSerializer},
     ]
-    #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
