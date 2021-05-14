@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'tickets',
     'flowbuilder',
     'articles',
+    'usersupport',
     'rest_framework',
     'cloudinary_storage',
     'cloudinary',
