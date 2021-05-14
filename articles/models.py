@@ -6,17 +6,18 @@ from django.core.files import File
 from django.utils import timezone
 from tinymce.models import HTMLField
 from PIL import Image
-from authentication.models import User
+from authentication.models import User, Company
 # Create your models here.
 
 class ArticlePost(models.Model):
+   title = models.CharField(max_length=255)
    post = HTMLField()
    date_posted = models.DateTimeField(default=timezone.now)
    image = models.ImageField('Image file', upload_to='tezi_images/articles')
-   author = models.ForeignKey(User, on_delete=models.CASCADE)
+   author = models.ForeignKey(Company, on_delete=models.CASCADE)
 
    def __str__(self):
-      return '%s - %s' % (self.post, self.author)
+      return f'Post Title: {self.title} | Company: {self.author}'
 
    def delete(self, *args, **kwargs):
 	   storage, path = self.image.storage, self.image.name
@@ -35,4 +36,4 @@ class Comment(models.Model):
    date_posted = models.DateTimeField(default=timezone.now)
 
    def __str__(self):
-      return '%s - %s' % (self.body, self.author)
+      return f'Comment: {self.body} | Post: {self.post}'

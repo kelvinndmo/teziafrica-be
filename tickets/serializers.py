@@ -6,7 +6,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Ticket
-    fields = ['id', 'post', 'date_posted', 'image', 'author']
+    fields = ['id', 'title', 'post', 'date_posted', 'image', 'author']
 
 
 
