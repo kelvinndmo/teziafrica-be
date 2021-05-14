@@ -39,7 +39,8 @@ def apiRequest(request):
 
         'Articles Endpoints':'articles/',
         'FlowBuilder Endpoints':'flowbuilder/',
-        'Ticket Endpoints':'tickets/'
+        'Ticket Endpoints':'tickets/',
+        'Support Endpoints':'support/'
     }
     return Response(api_endpoints)
 
