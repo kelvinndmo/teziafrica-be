@@ -16,6 +16,7 @@ class SupportRequest(models.Model):
    title = models.CharField(max_length=255)
    post = HTMLField()
    date_posted = models.DateTimeField(default=timezone.now)
+   screenshot = models.ImageField('Image file', upload_to='tezi_images/supportrequests', null=True)
    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
    def __str__(self):
