@@ -4,6 +4,12 @@ from datetime import datetime, timedelta
 import jwt
 from django.conf import settings
 from utils.models import BaseAbstractModel
+from cloudinary.models import CloudinaryField
+from cloudinary import CloudinaryImage
+from django.dispatch import receiver
+from django.core.files import File
+from PIL import Image
+
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -130,12 +136,18 @@ class Company(BaseAbstractModel):
         User, on_delete=models.CASCADE, related_name='employer'
     )
     phone = models.CharField(max_length=17, unique=True)
+    image = models.ImageField('Image file', upload_to='tezi_images/profiles/company', null=True)
     email = models.EmailField(unique=True)
     address = address = models.CharField(max_length=100)
     industry = models.CharField(max_length=100, choices=INDUSTRY_CHOICES, default='information and communication')
 
     def __str__(self):
         return f'{self.company_name}'
+    
+    def delete(self, *args, **kwargs):
+	    storage, path = self.image.storage, self.image.name
+	    super().delete(*args, **kwargs)
+	    storage.delete(path)
 
 
 class Staff(BaseAbstractModel):
@@ -156,9 +168,15 @@ class Staff(BaseAbstractModel):
     staff_company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='staff_company'
     )
+    image = models.ImageField('Image file', upload_to='tezi_images/profiles/staff', null=True)
     phone = models.CharField(max_length=17, unique=True)
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=100)
 
     def __str__(self):
         return f'Name: {self.staff_name} | Company: {self.staff_company}'
+
+    def delete(self, *args, **kwargs):
+	    storage, path = self.image.storage, self.image.name
+	    super().delete(*args, **kwargs)
+	    storage.delete(path)
