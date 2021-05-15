@@ -37,13 +37,13 @@ class UserSerializer(serializers.ModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
   class Meta:
     model = Company
-    fields = ['approval_status', 'company_name', 'company_admin', 'phone', 'email', 'address', 'industry']
+    fields = ['approval_status', 'company_name', 'company_admin', 'phone', 'image', 'email', 'address', 'industry']
 
 
 class StaffSerializer(serializers.ModelSerializer):
   class Meta:
     model = Staff
-    fields = ['approval_status', 'staff_name', 'staff_company', 'phone', 'email', 'address']
+    fields = ['approval_status', 'staff_name', 'staff_company', 'image', 'phone', 'email', 'address']
 
  
 class LoginSerializer(serializers.Serializer):

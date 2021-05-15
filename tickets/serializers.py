@@ -6,7 +6,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Ticket
-    fields = ['id', 'title', 'post', 'date_posted', 'image', 'author']
+    fields = ['id', 'title', 'post', 'date_posted', 'screenshot', 'author']
 
 
 
@@ -15,4 +15,4 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Feedback
-    fields = ['id', 'body', 'post', 'author', 'date_posted']
+    fields = ['id', 'body', 'post', 'screenshot', 'author', 'date_posted']
